@@ -32,6 +32,36 @@ Just create a virtual environement install the requirements and you can run the 
     python -m matrix_photos -c /path/to/config.yml
 ```
 
+## Run in Docker
+
+Set up a `docker-compose` file similar to:
+```yml
+version: '3'
+
+services:
+  matrix_photos:
+    image: ghcr.io/moritzj29/matrix_photos:latest
+    volumes:
+      - ./data:/data/photoframe
+      # - ./images:/data/photoframe/images_local
+    environment:
+      - TZ=Europe/Berlin
+
+  matrix_photos_db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./db:/var/lib/postgresql/data
+```
+Provide a valid config file at `/data/photoframe/conf/config.yml`
+within the container. Make sure to adjust the URL of the postgres
+database to match the container service name.
+
+Since the config file contains sensitive information like passwords
+for the matrix and database accounts, make sure to limit the access
+permissions of `conf.yml`.
+
 ## Development
 
 If you want to develop or test the client, there is a docker-compose file in the docker directory which starts a matrix synapse homeserver,
