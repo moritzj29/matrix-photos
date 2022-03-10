@@ -1,0 +1,14 @@
+{
+    "name": "matrix-photOS",
+    "dockerComposeFile": ["docker-compose.yml"],
+    "service": "matrix_photos",
+    "runServices": ["matrix_photos", "matrix_photos_db"],
+    "shutdownAction": "stopCompose",
+    "workspaceFolder": "/workspace",
+    "onCreateCommand": "pip install -e /workspace",
+    "postCreateCommand": "",
+    "extensions":[
+        "ms-python.python",
+        "ms-azuretools.vscode-docker"
+    ],
+}

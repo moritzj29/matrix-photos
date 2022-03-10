@@ -36,3 +36,11 @@ Just create a virtual environement install the requirements and you can run the 
 
 If you want to develop or test the client, there is a docker-compose file in the docker directory which starts a matrix synapse homeserver,
 a postgres database, an element matrix client and pgadmin if you want to check the database.
+
+### devcontainer
+It is possible to use the VS code `.devcontainer` for development. It spins up a debian based container for the `matrix_photos` library and a postgres database container. Be sure to use an appropriate `config.yml` file, especially changing the postgres database URL to match the `docker-compose.yml`:
+```yaml
+# postgres://user:password@database_service_name
+database_url: postgres://postgres:postgres@matrix_photos_db
+```
+The structure of the mounted `data` folder resembles the file structure present on installs of `photOS`. The `matrix_photos` source code is installed in editable mode by the devcontainer extension.
