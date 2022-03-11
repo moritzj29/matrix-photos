@@ -22,6 +22,6 @@ RUN mkdir /data \
     && mkdir /data/photoframe/log \
     && mkdir /data/photoframe/conf
 
-VOLUME [ "/data" ]
+VOLUME [ "/data/photoframe" ]
 
 CMD [ "python", "-m", "matrix_photos", "-c", "/data/photoframe/conf/config.yml" ]

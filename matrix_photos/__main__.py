@@ -8,6 +8,7 @@ import signal
 import sys
 import argparse
 import yaml
+import os
 from aiohttp import ClientSession
 from mautrix.util.logging import TraceLogger
 from .photos_client import PhotOsClient
@@ -35,10 +36,23 @@ except FileNotFoundError:
     print('configuration not found, exit')
     sys.exit(1)
 
+
+
 logging.config.dictConfig(CONFIG["logging"])
 logger = logging.getLogger(__name__)
 TRACE_LOGGER = cast(TraceLogger, logger)
 
+# overwrite config values with ENV values if present
+CONFIG_ENVS = {
+    'database_url': 'MATRIX_PHOTOS_DATABASE_URL',
+    'user_id': 'MATRIX_PHOTOS_USER_ID',
+    'user_password': 'MATRIX_PHOTOS_USER_PASSWORD'  
+}
+
+for (conf_key, env) in CONFIG_ENVS.items():
+    if os.getenv(env):
+        logger.warn(f"Overriding '{conf_key}' from environment variable.")
+        CONFIG[conf_key] = os.getenv(env)
 
 async def main():
     # pylint: disable=global-statement
